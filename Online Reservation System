@@ -1,0 +1,87 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Reservation {
+    private String customerName;
+    private String date;
+    private String time;
+    private int numberOfPeople;
+
+    public Reservation(String customerName, String date, String time, int numberOfPeople) {
+        this.customerName = customerName;
+        this.date = date;
+        this.time = time;
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation for " + customerName + " on " + date + " at " + time + " for " + numberOfPeople + " people.";
+    }
+}
+
+public class OnlineReservationSystem {
+    private List<Reservation> reservations;
+    private Scanner scanner;
+
+    public OnlineReservationSystem() {
+        reservations = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    private void makeReservation() {
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter reservation date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+        System.out.print("Enter reservation time (HH:MM): ");
+        String time = scanner.nextLine();
+        System.out.print("Enter number of people: ");
+        int numberOfPeople = Integer.parseInt(scanner.nextLine());
+
+        Reservation reservation = new Reservation(name, date, time, numberOfPeople);
+        reservations.add(reservation);
+        System.out.println("Reservation made successfully!");
+    }
+
+    private void viewReservations() {
+        if (reservations.isEmpty()) {
+            System.out.println("No reservations found.");
+        } else {
+            System.out.println("----- Reservations -----");
+            for (Reservation reservation : reservations) {
+                System.out.println(reservation);
+            }
+            System.out.println("------------------------");
+        }
+    }
+
+    public void start() {
+        while (true) {
+            System.out.println("1. Make Reservation");
+            System.out.println("2. View Reservations");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    makeReservation();
+                    break;
+                case 2:
+                    viewReservations();
+                    break;
+                case 3:
+                    System.out.println("Thank you for using the reservation system. Goodbye!");
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        OnlineReservationSystem system = new OnlineReservationSystem();
+        system.start();
+    }
+}
